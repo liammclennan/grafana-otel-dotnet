@@ -73,7 +73,16 @@ services:
       - "9000"
     volumes:
       - ./tmp/minio/data/:/data/
-  
+
+  seq:
+    image: datalust/seq-linux-ci:2024.1.10119-pre-arm64
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "80:80"
+    volumes:
+      - /Users/liammclennan/docker/data/grafana-otel-dotnet:/data
+
   otel-collector:
     container_name: otelcollector
     image: otel/opentelemetry-collector-contrib:latest

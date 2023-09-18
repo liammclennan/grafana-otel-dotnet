@@ -37,6 +37,9 @@ exporters:
     tls:
       insecure: true
 
+  otlphttp:
+    endpoint: http://seq:80/ingest/otlp
+
 service:
   pipelines:
     
@@ -48,9 +51,9 @@ service:
     traces:
       receivers: [ otlp ]
       processors: [ batch ]
-      exporters: [ otlp/tempo ]
+      exporters: [ otlp/tempo, otlphttp ]
     
     logs:
       receivers: [ otlp ]
       processors: [ batch, resource ]
-      exporters: [ loki ]
+      exporters: [ loki, otlphttp ]
