@@ -34,6 +34,12 @@ public class RemoteWeatherService : IWeatherService
 
     public async Task<WeatherForecast[]> GetForecastAsync()
     {
+        await Task.WhenAll(Enumerable.Range(1, 10).Select((i) => Task.Run(() =>
+        {
+            using var a = _instrumentor.Tracer.StartActivity($"Child task {i}");
+            _logger.LogInformation("Doing a thing");
+        })));
+       
         using var client = _httpClientFactory.CreateClient("WeatherService");
         _instrumentor.OutgoingRequestCounter.Add(1,
             new KeyValuePair<string, object?>("operation", nameof(GetForecastAsync)));

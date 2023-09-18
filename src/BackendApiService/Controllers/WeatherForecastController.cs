@@ -28,11 +28,16 @@ public class WeatherForecastController : ControllerBase
             new KeyValuePair<string, object?>("operation","GetWeatherForecast"),
             new KeyValuePair<string, object?>("controller",nameof(WeatherForecastController)));
         
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        return Enumerable.Range(1, 5).Select(index =>
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                using var a = _instrumentor.Tracer.StartActivity($"Calculating weather summary {index}");
+                
+                return new WeatherForecast
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                    TemperatureC = Random.Shared.Next(-20, 55),
+                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                };
             })
             .ToArray();
     }

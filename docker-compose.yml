@@ -75,7 +75,7 @@ services:
       - ./tmp/minio/data/:/data/
 
   seq:
-    image: datalust/seq-linux-ci:2024.1.10119-pre-arm64
+    image: datalust/seq-linux-ci:2024.1.10128-unbreak-choco-publish-pre-arm64
     environment:
       - ACCEPT_EULA=Y
     ports:
