@@ -74,14 +74,14 @@ services:
     volumes:
       - ./tmp/minio/data/:/data/
 
-  seq:
-    image: datalust/seq-linux-ci:2024.1.10128-unbreak-choco-publish-pre-arm64
-    environment:
-      - ACCEPT_EULA=Y
-    ports:
-      - "80:80"
-    volumes:
-      - /Users/liammclennan/docker/data/grafana-otel-dotnet:/data
+  # seq:
+  #   image: datalust/seq-linux-ci:2024.1.10128-unbreak-choco-publish-pre-arm64
+  #   environment:
+  #     - ACCEPT_EULA=Y
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - /Users/liammclennan/Library/Application Support/Seq:/data
 
   otel-collector:
     container_name: otelcollector
@@ -101,3 +101,5 @@ services:
       - "4317:4317" # OTLP gRPC receiver
       - "4318:4318" # OTLP http receiver
     #   - 55679:55679 # zpages extension
+    extra_hosts: 
+      - "host.docker.internal:host-gateway"

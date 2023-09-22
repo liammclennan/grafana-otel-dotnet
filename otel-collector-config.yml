@@ -38,7 +38,7 @@ exporters:
       insecure: true
 
   otlphttp:
-    endpoint: http://seq:80/ingest/otlp
+    endpoint: http://host.docker.internal/ingest/otlp
 
 service:
   pipelines:

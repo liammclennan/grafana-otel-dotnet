@@ -27,10 +27,13 @@ public class WeatherForecastController : ControllerBase
         _instrumentor.IncomingRequestCounter.Add(1, 
             new KeyValuePair<string, object?>("operation","GetWeatherForecast"),
             new KeyValuePair<string, object?>("controller",nameof(WeatherForecastController)));
-        
+
         return Enumerable.Range(1, 5).Select(index =>
             {
-                using var a = _instrumentor.Tracer.StartActivity($"Calculating weather summary {index}");
+                using var a = _instrumentor.Tracer.StartActivity("Calculating weather summary");
+                a?.SetTag("Date", DateOnly.FromDateTime(DateTime.Now.AddDays(index)));
+                a?.SetTag("TemperatureC", Random.Shared.Next(-20, 55));
+                a?.SetTag("Summary", Summaries[Random.Shared.Next(Summaries.Length)]);
                 
                 return new WeatherForecast
                 {
